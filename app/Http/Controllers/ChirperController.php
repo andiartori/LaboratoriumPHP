@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\Models\Chirp;
 
 class ChirperController extends Controller
 {
@@ -11,27 +11,14 @@ class ChirperController extends Controller
      */
     public function index()
     {
-        $chirps = [
-            [
-                'author' => 'John Doe',
-                'message' => 'I would like to introduce Ch riper',
-                'time' => '5 Minutes ago'
-            ] ,
-            [
-                'author' => 'John Smith',
-                'message' => 'Laravel makes web development fun again!',
-                'time' => '1 hour ago'
-            ],
-            [
-                'author' => 'Alice Johnson',
-                'message' => 'Working on something cool with Chirper...',
-                'time' => '3 hours ago'
-            ]
-        ];
+        $chirps = Chirp::with('user')
+            ->latest()
+            ->take(50)
+            ->get();
         return view('home' , ['chirps' => $chirps]);
     }
 
-    /**
+    /*
      * Show the form for creating a new resource.
      */
     public function create()
