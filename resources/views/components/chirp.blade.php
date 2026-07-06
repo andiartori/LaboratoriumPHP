@@ -25,7 +25,7 @@
             <div class="min-w-0">
                 <div class="flex items-center gap-1" >
                     <span class="semibold" > {{ $chirp->user ? $chirp->user->name : "Anonymous"  }}</span>
-                    <span class="mt-1"> {{ $chirp->messgage  }}</span>
+                    <span class="mt-1"> {{ $chirp->message  }}</span>
                     <span class="mt-1"> {{ $chirp->created_at->diffForHumans()  }} </span>
                 </div>
             </div>

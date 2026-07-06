@@ -1,5 +1,4 @@
 <x-layout>
-
     <x-slot:title>
         Welcome
     </x-slot:title>
@@ -8,9 +7,36 @@
         <h1 class="text-3xl font-bold">Welcome to Chirper!</h1>
         <p class="mt-4 text-base-content/60">This is your brand new Laravel application. Time to make it
             sing (or chirp)!</p>
-        @forelse($chirps as $chirp)
+
+<div class="card bg-base-100 shadow mt-8">
+    <div class="card-body">
+        <form action="" method="" >
+            @csrf
+         <div class="rounded-lg w-full form-control ">
+            <textarea
+                    name ="message",
+                    placeholder="Input your chirp"
+                    rows= "4",
+                    maxlength = "255",
+                    required,
+                    class="text-area text-area-bordered w-full resize-none"
+                >
+            </textarea>
+         </div>
+         <div class="flex justify-end p-5" >
+          <button class="btn btn-primary btn-sm">
+            Submit
+          </button>
+         </div>
+        </form>
+        </div>
+</div>
+
+
+                @forelse($chirps as $chirp)
             <x-chirp :chirp="$chirp"/>
         @empty
+
         <div> <p>No Chirp for the moment</p> </div>
         @endforelse
 
