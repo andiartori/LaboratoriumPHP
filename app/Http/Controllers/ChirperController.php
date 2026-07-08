@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+
 use App\Models\Chirp;
+use Illuminate\Http\Request;
 
 class ChirperController extends Controller
 {
@@ -15,7 +16,8 @@ class ChirperController extends Controller
             ->latest()
             ->take(50)
             ->get();
-        return view('home' , ['chirps' => $chirps]);
+
+        return view('home', ['chirps' => $chirps]);
     }
 
     /*
@@ -31,7 +33,16 @@ class ChirperController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+
+        Chirp::create([
+            'message' => $validated['message'],
+            'user_id' => null,
+        ]);
+
+        return redirect('/')->with('success', 'Your Chip has been created');
     }
 
     /**
