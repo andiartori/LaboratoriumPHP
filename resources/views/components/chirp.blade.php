@@ -4,7 +4,7 @@
     <div class="card-body">
         <div class="flex space-x-3">
             @if($chirp->user)
-                <div class="a   vatar">
+                <div class="avatar">
                     <div class="size-10 rounded-full">
                         <img src="https://avatars.laravel.cloud/>{{ urlencode($chirp->user->email)}}"
                         alt="{{$chirp->user->name}}"
@@ -22,13 +22,32 @@
                 </div>
             @endif
 
-            <div class="min-w-0">
-                <div class="flex items-center gap-1" >
-                    <span class="semibold" > {{ $chirp->user ? $chirp->user->name : "Anonymous"  }}</span>
-                    <span class="mt-1"> {{ $chirp->messgage  }}</span>
-                    <span class="mt-1"> {{ $chirp->created_at->diffForHumans()  }} </span>
+                <div class min-w-0 flex-1>
+                    <div class="flex justify-between w-full">
+                        <div class="flex items-center gap-1" >
+                            <span class="text-sm font-semibold" > {{ $chirp->user ? $chirp->user->name : "Anonymous"  }}</span>
+                            <span class="text-base-content/60"> . </span>
+                            <span class="text-sm text-base-content/60"> {{ $chirp->created_at->diffForHumans()  }} </span>
+                        </div>
+
+                        <div class="flex gap-1">
+                            <a href="/chirps/ {{ $chirp->id  }}/edit" class="btn btn-ghost btn-xs" >
+                                Edit
+                            </a>
+
+                            <form method="POST" action="/chirp/{{ $chirp->id }}">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" onclick="return confirm('are you sure want to delete the chirp ?')"
+                                class="btn btn-ghost btn-xs text-error">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                <p class="mt-1">{{ $chirp->message }}</p>
+           </div>
+</div>
 </div>
