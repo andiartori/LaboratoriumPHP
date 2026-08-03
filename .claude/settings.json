@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"\" app/Http/Controllers/ChirperController.php | sed -n '1,80p' > /tmp/x; grep -n \"route\\\\|Route\" routes/web.php)",
+      "mcp__laravel-boost__database-query"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  }
+}

@@ -7,47 +7,70 @@
             @if($chirp->user)
                 <div class="avatar">
                     <div class="size-10 rounded-full">
-                        <img src="https://avatars.laravel.cloud/{{ urlencode($chirp->user->email) }}"
-                            alt="{{ $chirp->user->name ? $chirp->user->name : 'Anonymous' }}" class="rounded-full">
+                        <img
+                            src="https://avatars.laravel.cloud/{{ urlencode($chirp->user->email) }}"
+                            alt="{{ $chirp->user->name ?? 'Anonymous' }}"
+                            class="rounded-full"
+                        >
                     </div>
                 </div>
             @else
                 <div class="avatar placeholder">
                     <div class="size-10 rounded-full">
-                        <img src="https://avatars.laravel.cloud/f61123d5-0b27-434c-a4ae-c653c7fc9ed6?vibe=stealth"
-                            alt="Anonymous" class="rounded-full">
+                        <img
+                            src="https://avatars.laravel.cloud/f61123d5-0b27-434c-a4ae-c653c7fc9ed6?vibe=stealth"
+                            alt="Anonymous"
+                            class="rounded-full"
+                        >
                     </div>
-
                 </div>
             @endif
 
+            <div class="min-w-0 flex-1">
+                <div class="flex justify-between w-full">
+                    <div class="flex items-center gap-1">
+                        <span class="text-sm font-semibold">
+                            {{ $chirp->user->name ?? 'Anonymous' }}
+                        </span>
 
-                <div class min-w-0 flex-1>
-                    <div class="flex justify-between w-full">
-                        <div class="flex items-center gap-1" >
-                            <span class="text-sm font-semibold" > {{ $chirp->user ? $chirp->user->name : "Anonymous"  }}</span>
-                            <span class="text-base-content/60"> . </span>
-                            <span class="text-sm text-base-content/60"> {{ $chirp->created_at->diffForHumans()  }} </span>
-                        </div>
+                        <span class="text-base-content/60">.</span>
 
-                        <div class="flex gap-1">
-                            <a href="/chirps/ {{ $chirp->id  }}/edit" class="btn btn-ghost btn-xs" >
-                                Edit
-                            </a>
+                        <span class="text-sm text-base-content/60">
+                            {{ $chirp->created_at->diffForHumans() }}
+                        </span>
 
-                            <form method="POST" action="/chirp/{{ $chirp->id }}">
-                                @csrf
-                                @method('DELETE')
+                        @if ($chirp->updated_at->gt($chirp->created_at->addSeconds(5)))
+                            <span class="text-base-content/60">.</span>
 
-                                <button type="submit" onclick="return confirm('are you sure want to delete the chirp ?')"
+                            <span class="text-sm text-base-content/60">
+                                Edited
+                            </span> 
+                            
+                        @endif
+                    </div>
+
+                    <div class="flex gap-1">
+                        <a href="/chirps/{{ $chirp->id }}/edit" class="btn btn-ghost btn-xs">
+                            Edit
+                        </a>
+
+                        <form method="POST" action="/chirps/{{ $chirp->id }}">
+                            @csrf
+                            @method('DELETE')
+
+                            <button
+                                type="submit"
+                                onclick="return confirm('Are you sure you want to delete the chirp?')"
                                 class="btn btn-ghost btn-xs text-error">
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
+
                 <p class="mt-1">{{ $chirp->message }}</p>
-           </div>
-</div>
+            </div>
+
+        </div>
+    </div>
 </div>
