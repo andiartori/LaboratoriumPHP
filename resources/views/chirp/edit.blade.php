@@ -10,7 +10,8 @@
             <div class="card-body" >
                 <form method="POST" action="/chirps/{{ $chirp->id }}">
                    @csrf
-                   @method(PUT) 
+                   @method("PUT")
+
 
                     <div class="form-controll full-width">
                         <textarea
