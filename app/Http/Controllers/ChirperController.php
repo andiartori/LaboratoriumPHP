@@ -37,13 +37,10 @@ class ChirperController extends Controller
             'message' => 'required|string|max:255',
         ]);
 
-        Chirp::create([
-            'message' => $validated['message'],
-            'user_id' => null,
-        ]);
+        auth()->user()->chirps()->create($validated);
 
         return redirect('/')->with('success', 'Your Chip has been created');
-    } 
+    }
 
     /**
      * Display the specified resource.
@@ -58,7 +55,9 @@ class ChirperController extends Controller
      */
     public function edit(Chirp $chirp)
     {
-        return view('chirp.edit' , compact('chirp'));
+        $this->authorize('update', $chirp);
+
+        return view('chirp.edit', compact('chirp'));
     }
 
     /**
@@ -70,10 +69,9 @@ class ChirperController extends Controller
             'message' => 'required|string|max:255',
         ]);
 
-        $chirp->update([
-            'message' => $validated['message'],
-            'user_id' => null,
-        ]);
+        $this->authorize('update', $chirp);
+
+        $chirp->update($validated);
 
         return redirect('/')->with('success', 'Your Chip has been updated');
     }
@@ -83,6 +81,9 @@ class ChirperController extends Controller
      */
     public function destroy(Chirp $chirp)
     {
+
+        $this->authorize('delete' , $chirp);
+
         $chirp->delete();
 
         return redirect('/')->with('success', 'Your Chip has been deleted');
